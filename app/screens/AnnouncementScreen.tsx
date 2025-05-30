@@ -12,7 +12,7 @@ const AnnouncementScreen = () => {
 
 	useEffect(() => {
 		if (token) {
-			const disconnectSocket = connectSocket(token, setAnnouncement);
+			const disconnectSocket = connectSocket(token, setAnnouncement); // Funkcja zwraca cleanup
 			return () => disconnectSocket();
 		}
 	}, [token]);

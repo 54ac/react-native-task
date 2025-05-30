@@ -20,10 +20,11 @@ const LoginScreen = () => {
 		setLoading(true);
 		setError(null);
 		try {
-			await login(email, password);
+			await login(email, password); // Funkcja z providera - zachowuje token i triggeruje AnnouncementScreen
 		} catch {
 			setError("Login failed.");
 		} finally {
+			setPassword("");
 			setLoading(false);
 		}
 	};

@@ -4,6 +4,7 @@ import { AnnouncementPayload } from "../types/announcement";
 const SOCKET_URL = "wss://rn.ltrlabsdev.pl/socket";
 const CHANNEL_NAME = "games:lobby";
 
+// Phoenix websocket connection handling wg instrukcji - useEffect w AnnouncementScreen
 export const connectSocket = (
 	token: string,
 	handleAnnouncement: (payload: AnnouncementPayload) => void
@@ -19,9 +20,10 @@ export const connectSocket = (
 
 	channel.on("announcement", (payload: AnnouncementPayload) => {
 		console.log("Received announcement:", payload);
-		handleAnnouncement(payload);
+		handleAnnouncement(payload); // setAnnouncement w AnnouncementScreen, triggerowany przy każdym payloadzie
 	});
 
+	// Cleanup dla useEffect
 	return () => {
 		if (channel) channel.leave();
 		if (socket) socket.disconnect();
