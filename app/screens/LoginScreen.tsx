@@ -21,8 +21,8 @@ const LoginScreen = () => {
 		setError(null);
 		try {
 			await login(email, password); // Funkcja z providera - zachowuje token i triggeruje AnnouncementScreen
-		} catch {
-			setError("Login failed.");
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Login failed.");
 		} finally {
 			setPassword("");
 			setLoading(false);
@@ -45,12 +45,16 @@ const LoginScreen = () => {
 				value={password}
 				onChangeText={setPassword}
 			/>
-			{error && <Text style={styles.error}>{error}</Text>}
 			{loading ? (
 				<ActivityIndicator style={styles.loading} />
 			) : (
-				<Button title="Login" onPress={handleLogin} />
+				<Button
+					title="Login"
+					onPress={handleLogin}
+					disabled={!email || !password}
+				/>
 			)}
+			{error && <Text style={styles.error}>{error}</Text>}
 		</View>
 	);
 };
@@ -66,6 +70,6 @@ const styles = StyleSheet.create({
 		padding: 8,
 		minWidth: 200
 	},
-	error: { color: "red", textAlign: "center" },
+	error: { color: "red", textAlign: "center", marginTop: 12 },
 	loading: { marginTop: 12 }
 });
